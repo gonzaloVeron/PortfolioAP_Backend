@@ -1,10 +1,12 @@
 package com.portfolio.PortfolioAP.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 
-@Table(name = "usuarios")
+@Table(name = "users")
 @Entity
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -17,7 +19,10 @@ public class Usuario {
     private String apellido;
 
     @Column
-    private String mail;
+    private String password;
+
+    @Column
+    private String email;
 
     @Column
     private String sobre_mi;
@@ -37,15 +42,18 @@ public class Usuario {
     @Column
     private String imagen_background;
 
-    public Usuario(){
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Education> educations;
+
+    public User(){
 
     }
 
-    public Usuario(int id, String nombre, String apellido, String mail, String sobre_mi, String ocupacion, String fecha_nacimiento, String nacionalidad, String imagen_perfil, String imagen_background) {
+    public User(int id, String nombre, String apellido, String mail, String sobre_mi, String ocupacion, String fecha_nacimiento, String nacionalidad, String imagen_perfil, String imagen_background) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.mail = mail;
+        this.email = mail;
         this.sobre_mi = sobre_mi;
         this.ocupacion = ocupacion;
         this.fecha_nacimiento = fecha_nacimiento;
@@ -78,12 +86,20 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getMail() {
-        return mail;
+    public String getPassword(){
+        return password;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String mail) {
+        this.email = mail;
     }
 
     public String getSobre_mi() {
