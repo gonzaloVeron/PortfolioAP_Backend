@@ -2,6 +2,7 @@ package com.portfolio.PortfolioAP.services;
 
 import com.portfolio.PortfolioAP.dto.EducationDTO;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.EducationNotFoundException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.Education;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.repository.EducationRepository;
@@ -18,45 +19,45 @@ public class EducationService {
     private EducationRepository educationRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Transactional
-    public Education save(EducationDTO dto) {
-        User userFound = this.userRepository.findById(dto.getUser_id()).get();
-        Education education = dto.getEducation();
-        education.setImage("no_images.png");
-        education.setUser(userFound);
+    public Education save(EducationDTO dto) throws UserNotFoundException {
+        User userFound = this.userService.findById(dto.getUser_id());
+        Education education = new Education(dto.getCareer(), dto.getAverage(), dto.getImage(), dto.getTitle(), dto.getInstitution(), dto.getStart_year(), dto.getEnd_year(), userFound);
         return this.educationRepository.save(education);
     }
 
     @Transactional
     public Education update(int edu_id, EducationDTO dto) throws EducationNotFoundException {
         Education education = this.educationRepository.findById(edu_id).get();
-        if(education == null){
-            throw new EducationNotFoundException("The requested education was not found");
-        }
-        education.setImage(dto.getEducation().getImage());
-        education.setAverage(dto.getEducation().getAverage());
-        education.setCareer(dto.getEducation().getCareer());
-        education.setStart_year(dto.getEducation().getStart_year());
-        education.setEnd_year(dto.getEducation().getEnd_year());
-        education.setInstitution(dto.getEducation().getInstitution());
-        education.setTitle(dto.getEducation().getTitle());
+        this.verifyEducation(education);
+        education.setImage(dto.getImage());
+        education.setAverage(dto.getAverage());
+        education.setCareer(dto.getCareer());
+        education.setStart_year(dto.getStart_year());
+        education.setEnd_year(dto.getEnd_year());
+        education.setInstitution(dto.getInstitution());
+        education.setTitle(dto.getTitle());
         return this.educationRepository.save(education);
     }
 
-    @Transactional
-    public Education findById(int id) throws EducationNotFoundException {
-        Education education = this.educationRepository.findById(id).get();
-        if(education == null){
-            throw new EducationNotFoundException("The requested education was not found");
-        }
-        return education;
-    }
+    //@Transactional
+    //public Education findById(int id) throws EducationNotFoundException {
+    //    Education education = this.educationRepository.findById(id).get();
+    //    this.verifyEducation(education);
+    //    return education;
+    //}
 
     @Transactional
     public List<Education> findAll(){
         return this.educationRepository.findAll();
+    }
+
+    private void verifyEducation(Education edu) throws EducationNotFoundException {
+        if(edu == null){
+            throw new EducationNotFoundException("The requested education was not found");
+        }
     }
 
 }

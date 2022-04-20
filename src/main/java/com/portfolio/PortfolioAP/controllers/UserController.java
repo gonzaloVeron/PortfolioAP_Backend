@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.portfolio.PortfolioAP.errorHandler.HttpErrorException;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.InvalidCredentials;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.MissingDataException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.models.UserCredentials;
 import com.portfolio.PortfolioAP.services.JwtService;
@@ -27,7 +28,7 @@ public class UserController {
 
     @GetMapping(path = "/user/{id}")
     @ResponseBody
-    public User getUserById(@PathVariable Integer id) {
+    public User getUserById(@PathVariable Integer id) throws UserNotFoundException {
         return userService.findById(id);
     }
 

@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.InvalidCredentials;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.MissingDataException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,10 @@ public class UserService {
     }
 
     @Transactional
-    public User findById(int id) {
-        //this.validateId(id);
-
-        return this.userRepository.findById(id).get();
+    public User findById(int id) throws UserNotFoundException {
+        User user = this.userRepository.findById(id).get();
+        this.validateUserExistence(user);
+        return user;
     }
 
     @Transactional
@@ -72,6 +73,12 @@ public class UserService {
         }
     }
     */
+
+    private void validateUserExistence(User user) throws UserNotFoundException {
+        if(user == null){
+            throw new UserNotFoundException("The requested user was not found");
+        }
+    }
 
     private void validateEmailAndPassword(String email, String password) throws MissingDataException {
         if(email == null || password == null){

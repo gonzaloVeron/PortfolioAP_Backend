@@ -1,10 +1,8 @@
 package com.portfolio.PortfolioAP.errorHandler.exceptions;
 
-import com.portfolio.PortfolioAP.errorHandler.HttpErrorException;
-
-public class EducationNotFoundException extends HttpErrorException {
+public class EducationNotFoundException extends NotFoundException {
 
     public EducationNotFoundException(String message){
-        super(message, 404);
+        super(message);
     }
 }

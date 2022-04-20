@@ -2,6 +2,7 @@ package com.portfolio.PortfolioAP.controllers;
 
 import com.portfolio.PortfolioAP.dto.EducationDTO;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.EducationNotFoundException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.Education;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.services.EducationService;
@@ -26,7 +27,7 @@ public class EducationController {
 
     @PostMapping(path = "/")
     @ResponseBody
-    public Education postEducation(@RequestBody EducationDTO dto) {
+    public Education postEducation(@RequestBody EducationDTO dto) throws UserNotFoundException {
         return educationService.save(dto);
     }
 

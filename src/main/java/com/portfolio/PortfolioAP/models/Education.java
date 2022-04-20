@@ -51,6 +51,17 @@ public class Education {
         this.user = user;
     }
 
+    public Education(String career, float average, String image, String title, String institution, int start_year, int end_year, User user) {
+        this.career = career;
+        this.average = average;
+        this.image = image;
+        this.title = title;
+        this.institution = institution;
+        this.start_year = start_year;
+        this.end_year = end_year;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }
