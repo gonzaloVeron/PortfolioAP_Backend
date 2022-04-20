@@ -1,12 +1,18 @@
 package com.portfolio.PortfolioAP.controllers;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.portfolio.PortfolioAP.errorHandler.HttpErrorException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.InvalidCredentials;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.MissingDataException;
 import com.portfolio.PortfolioAP.models.User;
+import com.portfolio.PortfolioAP.models.UserCredentials;
+import com.portfolio.PortfolioAP.services.JwtService;
 import com.portfolio.PortfolioAP.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -16,54 +22,36 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @GetMapping(path = "/user/{id}")
     @ResponseBody
     public User getUserById(@PathVariable Integer id) {
-        //try{
         return userService.findById(id);
-        //}catch(NoSuchElementException | InvalidIdException e){
-        //    throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        //}
     }
 
-    @GetMapping(path = "/test/{token}")
+    @GetMapping(path = "/test/{id}")
     @ResponseBody
-    public DecodedJWT test(@PathVariable String token) {
-        //User u = userService.findById(3);
-        return userService.verifyJWT(token);
-        //return userService.createJWT("Gonzalo");
-        //try{
+    public String test(HttpServletRequest request, @PathVariable int id) {
+        return this.jwtService.create((int) request.getAttribute("user_id"));
         //return userService.findById(id);
-        //}catch(NoSuchElementException | InvalidIdException e){
-        //    throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        //}
+        //return "";
     }
 
     @PostMapping(path = "/user")
-    public void postUser(@RequestBody User user) {
-        //try{
+    public void postUser(@RequestBody User user) throws HttpErrorException {
         userService.save(user, user.getPassword());
-        //}catch (MissingDataException e){
-        //    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        //}
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/jwt/user/{id}")
     public void deleteEmployee(@PathVariable Integer id) {
-        //try{
         userService.deleteById(id);
-        //}catch (NoSuchElementException | InvalidIdException e){
-        //    throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        //}
     }
 
-    //@PostMapping(path = "/login")
-    //@ResponseBody
-    //public User getUserByEmail(@RequestBody User user) {
-        //try {
-        //return userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        //}catch (MissingDataException e){
-        //    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        //}
-    //}
+    @PostMapping(path = "/login")
+    @ResponseBody
+    public User login(@RequestBody UserCredentials userCred) throws MissingDataException, InvalidCredentials {
+        return userService.authenticate(userCred.getEmail(), userCred.getPassword());
+    }
 }

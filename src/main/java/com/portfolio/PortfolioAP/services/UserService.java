@@ -7,6 +7,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.InvalidCredentials;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.MissingDataException;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +55,6 @@ public class UserService {
         this.userRepository.deleteById(id);
     }
 
-    @Transactional
-    public User findByEmailAndPassword(String email, String password) {
-        //this.validateEmailAndPassword(email, password);
-        return this.userRepository.findByEmailAndPassword(email, password).get();
-    }
-
     /*
     private void validateId(Integer id) throws InvalidIdException {
         if(id <= 0){
@@ -75,13 +71,23 @@ public class UserService {
             throw new MissingDataException("Faltan datos del usuario");
         }
     }
+    */
 
     private void validateEmailAndPassword(String email, String password) throws MissingDataException {
         if(email == null || password == null){
-            throw new MissingDataException("Faltan datos del usuario");
+            throw new MissingDataException("Faltan datos del usuario", 400);
         }
     }
-     */
+
+    @Transactional
+    public User authenticate(String email, String password) throws MissingDataException, InvalidCredentials {
+        this.validateEmailAndPassword(email, password);
+        User userFound = this.userRepository.findByEmail(email).get();
+        if(this.matchPassword(password, userFound.getPassword())){
+            throw new InvalidCredentials();
+        }
+        return userFound;
+    }
 
     private String hashPassword(String password){
         int strength = Integer.parseInt(env.getProperty("passHashSecret"));
@@ -94,35 +100,6 @@ public class UserService {
         int strength = Integer.parseInt(env.getProperty("passHashSecret"));
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(strength, new SecureRandom());
         return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
-    }
-
-    public String createJWT(String username) {
-        String token = null;
-        try {
-            Date expireDate = new Date(2022, 4, 30);
-            Algorithm algorithm = Algorithm.HMAC256(env.getProperty("jwtSecret"));
-            token = JWT.create().withExpiresAt(expireDate).withSubject(username).withIssuer("Portfolio_api_v1").sign(algorithm);
-        } catch (JWTCreationException exception){
-            //Invalid Signing configuration / Couldn't convert Claims.
-        }
-        return token;
-    }
-
-    public DecodedJWT verifyJWT(String token){
-        DecodedJWT jwt = null;
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(env.getProperty("jwtSecret"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("Portfolio_api_v1")
-                    .build(); //Reusable verifier instance
-            jwt = verifier.verify(token);
-            System.out.println(jwt.getPayload());
-        } catch (TokenExpiredException exception){
-            //Invalid signature/claims
-            System.out.println("a");
-            System.out.println(jwt);
-        }
-        return jwt;
     }
 
 }
