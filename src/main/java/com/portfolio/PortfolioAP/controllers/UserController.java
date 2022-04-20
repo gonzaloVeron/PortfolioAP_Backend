@@ -23,29 +23,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/jwt/{id}")
     @ResponseBody
     public User getUserById(@PathVariable Integer id) throws UserNotFoundException {
         return userService.findById(id);
     }
 
-    @GetMapping(path = "/test/{id}")
-    @ResponseBody
-    public String test(HttpServletRequest request, @PathVariable int id) {
-        return this.jwtService.create((int) request.getAttribute("user_id"));
-        //return userService.findById(id);
-        //return "";
-    }
-
-    @PostMapping(path = "/user")
-    public void postUser(@RequestBody User user) throws HttpErrorException {
+    @PostMapping(path = "/jwt")
+    public void postUser(@RequestBody User user) {
         userService.save(user, user.getPassword());
     }
 
-    @DeleteMapping("/jwt/user/{id}")
+    @DeleteMapping("/jwt/{id}")
     public void deleteEmployee(@PathVariable Integer id) {
         userService.deleteById(id);
     }

@@ -15,7 +15,8 @@ public class TestMiddlewareAspect {
         Object proceed = joinPoint.proceed();
         var params = joinPoint.getArgs();
         User u = (User) params[0];
-        System.out.println(u.getNombre());
+        System.out.println(u.getName());
+        // No se para que sirve esto :¬)
         return proceed;
     }
 

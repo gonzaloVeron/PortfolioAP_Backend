@@ -1,75 +1,38 @@
-package com.portfolio.PortfolioAP.models;
+package com.portfolio.PortfolioAP.dto;
 
-import javax.persistence.*;
-import java.util.List;
+public class UserDTO {
 
-@Table(name = "users")
-@Entity
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    private int id;
-
-    @Column
     private String name;
 
-    @Column
     private String surname;
 
-    @Column
     private String password;
 
-    @Column
     private String email;
 
-    @Column
     private String about_me;
 
-    @Column
     private String employment;
 
-    @Column
     private String birth_date;
 
-    @Column
     private String nationality;
 
-    @Column
     private String profile_img;
 
-    @Column
     private String background_img;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Education> educations;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkExperience> experiences;
-
-    public User(){
-
-    }
-
-    public User(int id, String name, String surname, String mail, String about_me, String employment, String birth_date, String nationality, String profile_img, String background_img) {
-        this.id = id;
+    public UserDTO(String name, String surname, String password, String email, String about_me, String employment, String birth_date, String nationality, String profile_img, String background_img) {
         this.name = name;
         this.surname = surname;
-        this.email = mail;
+        this.password = password;
+        this.email = email;
         this.about_me = about_me;
         this.employment = employment;
         this.birth_date = birth_date;
         this.nationality = nationality;
         this.profile_img = profile_img;
         this.background_img = background_img;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -88,11 +51,11 @@ public class User {
         this.surname = surname;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -100,8 +63,8 @@ public class User {
         return email;
     }
 
-    public void setEmail(String mail) {
-        this.email = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAbout_me() {
@@ -151,5 +114,4 @@ public class User {
     public void setBackground_img(String background_img) {
         this.background_img = background_img;
     }
-
 }

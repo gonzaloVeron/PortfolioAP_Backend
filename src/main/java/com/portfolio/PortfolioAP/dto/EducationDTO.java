@@ -33,32 +33,63 @@ public class EducationDTO {
         return career;
     }
 
+    public void setCareer(String career) {
+        this.career = career;
+    }
+
     public float getAverage() {
         return average;
+    }
+
+    public void setAverage(float average) {
+        this.average = average;
     }
 
     public String getImage() {
         return image;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getInstitution() {
         return institution;
     }
 
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
     public int getStart_year() {
         return start_year;
+    }
+
+    public void setStart_year(int start_year) {
+        this.start_year = start_year;
     }
 
     public int getEnd_year() {
         return end_year;
     }
 
+    public void setEnd_year(int end_year) {
+        this.end_year = end_year;
+    }
+
     public int getUser_id() {
         return user_id;
     }
 
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 }
