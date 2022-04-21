@@ -1,12 +1,12 @@
-package com.portfolio.PortfolioAP.models;
+package com.portfolio.PortfolioAP.dto;
 
-public class UserCredentials {
+public class UserCredentialsDTO {
 
     private String email;
 
     private String password;
 
-    public UserCredentials(String email, String password) {
+    public UserCredentialsDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }

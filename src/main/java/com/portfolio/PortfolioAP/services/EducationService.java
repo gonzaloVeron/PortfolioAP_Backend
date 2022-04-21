@@ -6,7 +6,6 @@ import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.Education;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.repository.EducationRepository;
-import com.portfolio.PortfolioAP.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

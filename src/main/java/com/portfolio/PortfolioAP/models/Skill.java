@@ -1,5 +1,7 @@
 package com.portfolio.PortfolioAP.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Table(name = "skills")
@@ -18,6 +20,7 @@ public class Skill {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     public Skill(){

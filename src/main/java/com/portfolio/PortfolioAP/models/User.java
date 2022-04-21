@@ -1,6 +1,10 @@
 package com.portfolio.PortfolioAP.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "users")
@@ -47,12 +51,35 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkExperience> experiences;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Skill> skills;
+
     public User(){
 
     }
 
-    public User(int id, String name, String surname, String mail, String about_me, String employment, String birth_date, String nationality, String profile_img, String background_img) {
+    public User(int id, String name, String surname, String password, String email, String about_me, String employment, String birth_date, String nationality, String profile_img, String background_img, List<Education> educations, List<WorkExperience> experiences, List<Project> projects, List<Skill> skills) {
         this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+        this.about_me = about_me;
+        this.employment = employment;
+        this.birth_date = birth_date;
+        this.nationality = nationality;
+        this.profile_img = profile_img;
+        this.background_img = background_img;
+        this.educations = educations;
+        this.experiences = experiences;
+        this.projects = projects;
+        this.skills = skills;
+    }
+
+    public User(String name, String surname, String mail, String about_me, String employment, String birth_date, String nationality, String profile_img, String background_img){
         this.name = name;
         this.surname = surname;
         this.email = mail;
@@ -62,6 +89,10 @@ public class User {
         this.nationality = nationality;
         this.profile_img = profile_img;
         this.background_img = background_img;
+        this.educations = new ArrayList<Education>();
+        this.experiences = new ArrayList<WorkExperience>();
+        this.projects = new ArrayList<Project>();
+        this.skills = new ArrayList<Skill>();
     }
 
     public int getId() {
@@ -150,6 +181,38 @@ public class User {
 
     public void setBackground_img(String background_img) {
         this.background_img = background_img;
+    }
+
+    public List<Education> getEducations() {
+        return educations;
+    }
+
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
+    }
+
+    public List<WorkExperience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(List<WorkExperience> experiences) {
+        this.experiences = experiences;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
     }
 
 }
