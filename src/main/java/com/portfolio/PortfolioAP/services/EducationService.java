@@ -21,8 +21,8 @@ public class EducationService {
     private UserService userService;
 
     @Transactional
-    public Education save(EducationDTO dto) throws UserNotFoundException {
-        User userFound = this.userService.findById(dto.getUser_id());
+    public Education save(int user_id, EducationDTO dto) throws UserNotFoundException {
+        User userFound = this.userService.findById(user_id);
         Education education = new Education(dto.getCareer(), dto.getAverage(), dto.getImage(), dto.getTitle(), dto.getInstitution(), dto.getStart_year(), dto.getEnd_year(), userFound);
         return this.educationRepository.save(education);
     }
@@ -51,6 +51,11 @@ public class EducationService {
     @Transactional
     public List<Education> findAll(){
         return this.educationRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        this.educationRepository.deleteById(id);
     }
 
     private void verifyEducation(Education edu) throws EducationNotFoundException {

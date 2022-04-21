@@ -34,6 +34,12 @@ public class Skill {
         this.user = user;
     }
 
+    public Skill(String name, String level, User user) {
+        this.name = name;
+        this.level = level;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }

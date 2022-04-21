@@ -2,30 +2,80 @@ package com.portfolio.PortfolioAP.dto;
 
 import com.portfolio.PortfolioAP.models.WorkExperience;
 
+import java.time.LocalDate;
+
 public class WorkExperienceDTO {
 
-    private WorkExperience experience;
+    private String description;
 
-    private int user_id;
+    private String title;
 
-    public WorkExperienceDTO(WorkExperience experience, int user_id) {
-        this.experience = experience;
-        this.user_id = user_id;
+    private String city;
+
+    private String company_name;
+
+    private LocalDate start_date;
+
+    private LocalDate end_date;
+
+    public WorkExperienceDTO(){
+
     }
 
-    public WorkExperience getExperience() {
-        return experience;
+    public WorkExperienceDTO(String description, String title, String city, String company_name, LocalDate start_date, LocalDate end_date) {
+        this.description = description;
+        this.title = title;
+        this.city = city;
+        this.company_name = company_name;
+        this.start_date = start_date;
+        this.end_date = end_date;
     }
 
-    public void setExperience(WorkExperience experience) {
-        this.experience = experience;
+    public String getDescription() {
+        return description;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
+
+    public LocalDate getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(LocalDate start_date) {
+        this.start_date = start_date;
+    }
+
+    public LocalDate getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(LocalDate end_date) {
+        this.end_date = end_date;
     }
 }

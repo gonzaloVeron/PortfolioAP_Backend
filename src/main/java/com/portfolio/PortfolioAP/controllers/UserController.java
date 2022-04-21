@@ -47,4 +47,5 @@ public class UserController {
     public UserLoggedDTO login(@RequestBody UserCredentialsDTO userCred) throws MissingDataException, InvalidCredentials {
         return this.userService.authenticate(userCred.getEmail(), userCred.getPassword());
     }
+
 }

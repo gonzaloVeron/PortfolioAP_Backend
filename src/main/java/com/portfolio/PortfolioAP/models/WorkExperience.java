@@ -51,6 +51,16 @@ public class WorkExperience {
         this.user = user;
     }
 
+    public WorkExperience(String description, String title, String city, String company_name, LocalDate start_date, LocalDate end_date, User user) {
+        this.description = description;
+        this.title = title;
+        this.city = city;
+        this.company_name = company_name;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }

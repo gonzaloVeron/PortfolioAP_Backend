@@ -16,9 +16,7 @@ public class EducationDTO {
 
     private int end_year;
 
-    private int user_id;
-
-    public EducationDTO(String career, float average, String image, String title, String institution, int start_year, int end_year, int user_id) {
+    public EducationDTO(String career, float average, String image, String title, String institution, int start_year, int end_year) {
         this.career = career;
         this.average = average;
         this.image = image;
@@ -26,7 +24,6 @@ public class EducationDTO {
         this.institution = institution;
         this.start_year = start_year;
         this.end_year = end_year;
-        this.user_id = user_id;
     }
 
     public String getCareer() {
@@ -85,11 +82,4 @@ public class EducationDTO {
         this.end_year = end_year;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
 }

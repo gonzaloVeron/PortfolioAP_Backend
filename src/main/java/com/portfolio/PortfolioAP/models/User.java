@@ -1,5 +1,6 @@
 package com.portfolio.PortfolioAP.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class User {
     private String surname;
 
     @Column
+    @JsonIgnore
     private String password;
 
     @Column

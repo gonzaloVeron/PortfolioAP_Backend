@@ -86,7 +86,7 @@ public class UserService {
 
     private void validateEmailAndPassword(String email, String password) throws MissingDataException {
         if(email == null || password == null){
-            throw new MissingDataException("Faltan datos del usuario", 400);
+            throw new MissingDataException("User missing data", 400);
         }
     }
 

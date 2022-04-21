@@ -37,6 +37,13 @@ public class Project {
         this.user = user;
     }
 
+    public Project(String title, String description, String url, User user) {
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }
