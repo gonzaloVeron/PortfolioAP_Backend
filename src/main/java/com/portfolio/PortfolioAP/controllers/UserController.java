@@ -31,7 +31,7 @@ public class UserController {
         return this.userService.findById(user_id);
     }
 
-    @PostMapping(path = "/jwt")
+    @PostMapping(path = "")
     @ResponseBody
     public User postUser(@RequestBody UserDTO dto) {
         return this.userService.save(dto);
