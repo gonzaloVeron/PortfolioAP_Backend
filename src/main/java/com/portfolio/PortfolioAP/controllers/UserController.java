@@ -10,6 +10,12 @@ import com.portfolio.PortfolioAP.dto.UserCredentialsDTO;
 import com.portfolio.PortfolioAP.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -46,6 +52,28 @@ public class UserController {
     @ResponseBody
     public UserLoggedDTO login(@RequestBody UserCredentialsDTO userCred) throws MissingDataException, InvalidCredentials {
         return this.userService.authenticate(userCred.getEmail(), userCred.getPassword());
+    }
+
+    @PostMapping(path  = "/img")
+    @ResponseBody
+    public boolean uploadImage(@RequestParam("file") MultipartFile img){
+
+        if(!img.isEmpty()){
+            Path imgDir = Paths.get("src//main//resources//images");
+            String imgAbsoluteRoute = imgDir.toFile().getAbsolutePath();
+
+            try{
+                byte[] bytesImg = img.getBytes();
+                Path completeRoute = Paths.get(imgAbsoluteRoute + "//" + img.getOriginalFilename());
+                Files.write(completeRoute, bytesImg);
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
+
+        return true;
     }
 
 }
