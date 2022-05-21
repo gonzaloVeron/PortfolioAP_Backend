@@ -13,9 +13,8 @@ public class TestMiddlewareAspect {
     @Around("@annotation(TestMiddleware)")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         Object proceed = joinPoint.proceed();
-        var params = joinPoint.getArgs();
-        User u = (User) params[0];
-        System.out.println(u.getName());
+        //User u = (User) params[0];
+        //System.out.println(u.getName());
         // No se para que sirve esto :¬)
         return proceed;
     }
