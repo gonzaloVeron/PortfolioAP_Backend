@@ -66,7 +66,7 @@ public class UserController {
                 byte[] bytesImg = img.getBytes();
                 Path completeRoute = Paths.get(imgAbsoluteRoute + "//" + img.getOriginalFilename());
                 Files.write(completeRoute, bytesImg);
-
+                //a
             }catch (IOException e){
                 e.printStackTrace();
             }
