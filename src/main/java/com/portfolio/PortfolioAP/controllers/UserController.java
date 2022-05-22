@@ -56,11 +56,12 @@ public class UserController {
 
     @PostMapping(path  = "/img")
     @ResponseBody
-    public Path uploadImage(@RequestParam("file") MultipartFile img){
+    public String uploadImage(@RequestParam("file") MultipartFile img){
         Path completeRoute = null;
+        String imgAbsoluteRoute = null;
         if(!img.isEmpty()){
             Path imgDir = Paths.get("src//main//resources//images");
-            String imgAbsoluteRoute = imgDir.toFile().getAbsolutePath();
+            imgAbsoluteRoute = imgDir.toFile().getAbsolutePath();
 
             try{
                 byte[] bytesImg = img.getBytes();
@@ -73,7 +74,7 @@ public class UserController {
 
         }
 
-        return completeRoute;
+        return imgAbsoluteRoute;
     }
 
 }
