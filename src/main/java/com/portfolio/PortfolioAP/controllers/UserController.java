@@ -56,15 +56,15 @@ public class UserController {
 
     @PostMapping(path  = "/img")
     @ResponseBody
-    public boolean uploadImage(@RequestParam("file") MultipartFile img){
-
+    public Path uploadImage(@RequestParam("file") MultipartFile img){
+        Path completeRoute = null;
         if(!img.isEmpty()){
             Path imgDir = Paths.get("src//main//resources//images");
             String imgAbsoluteRoute = imgDir.toFile().getAbsolutePath();
 
             try{
                 byte[] bytesImg = img.getBytes();
-                Path completeRoute = Paths.get(imgAbsoluteRoute + "//" + img.getOriginalFilename());
+                completeRoute = Paths.get(imgAbsoluteRoute + "//" + img.getOriginalFilename());
                 Files.write(completeRoute, bytesImg);
                 //a
             }catch (IOException e){
@@ -73,7 +73,7 @@ public class UserController {
 
         }
 
-        return true;
+        return completeRoute;
     }
 
 }
