@@ -1,0 +1,43 @@
+package com.portfolio.PortfolioAP.services;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
+
+@Service
+public class ImageService {
+
+    @Autowired
+    private Environment env;
+
+    public String upload(MultipartFile multipartFile) throws IOException {
+        String bucketName = env.getProperty("firebase.bucket.name");
+        String projectId = env.getProperty("firebase.project.id");
+        FileInputStream serviceAccount =
+                new FileInputStream(env.getProperty("firebase.credentials"));
+        StorageOptions storageOptions = StorageOptions.newBuilder()
+                .setProjectId(projectId)
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
+
+        String uuid = UUID.randomUUID().toString();
+
+        Storage storage = storageOptions.getService();
+        BlobId blobId = BlobId.of(bucketName, uuid);
+
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
+
+        Blob blob = storage.create(blobInfo, multipartFile.getBytes());
+
+        return uuid;
+    }
+
+}

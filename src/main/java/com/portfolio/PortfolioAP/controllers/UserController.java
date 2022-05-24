@@ -7,15 +7,12 @@ import com.portfolio.PortfolioAP.errorHandler.exceptions.MissingDataException;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.dto.UserCredentialsDTO;
+import com.portfolio.PortfolioAP.services.ImageService;
 import com.portfolio.PortfolioAP.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -24,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping(path = "/jwt/{user_id}")
     @ResponseBody
@@ -54,27 +54,29 @@ public class UserController {
         return this.userService.authenticate(userCred.getEmail(), userCred.getPassword());
     }
 
-    @PostMapping(path  = "/img")
+    @PostMapping(path = "/img")
     @ResponseBody
-    public String uploadImage(@RequestParam("file") MultipartFile img){
-        Path completeRoute = null;
-        String imgAbsoluteRoute = null;
-        if(!img.isEmpty()){
-            Path imgDir = Paths.get("src//main//resources//images");
-            imgAbsoluteRoute = imgDir.toFile().getAbsolutePath();
-
-            try{
-                byte[] bytesImg = img.getBytes();
-                completeRoute = Paths.get(imgAbsoluteRoute + "//" + img.getOriginalFilename());
-                Files.write(completeRoute, bytesImg);
-                //a
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-        }
-
-        return imgAbsoluteRoute;
+    public String uploadImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+        return this.imageService.upload(multipartFile);
     }
+
+//    @PostMapping(path  = "/img")
+//    @ResponseBody
+//    public String uploadImage(@RequestParam("file") MultipartFile img){
+//        Path completeRoute = null;
+//        String imgAbsoluteRoute = null;
+//        if(!img.isEmpty()){
+//            Path imgDir = Paths.get("src//main//resources//images");
+//            imgAbsoluteRoute = imgDir.toFile().getAbsolutePath();
+//            try{
+//                byte[] bytesImg = img.getBytes();
+//                completeRoute = Paths.get(imgAbsoluteRoute + "//" + img.getOriginalFilename());
+//                Files.write(completeRoute, bytesImg);
+//            }catch (IOException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        return imgAbsoluteRoute;
+//    }
 
 }
