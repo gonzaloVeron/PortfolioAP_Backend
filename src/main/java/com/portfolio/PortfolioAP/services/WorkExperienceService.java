@@ -24,7 +24,7 @@ public class WorkExperienceService {
     @Transactional
     public WorkExperience save(int user_id, WorkExperienceDTO dto) throws UserNotFoundException {
         User userFound = this.userService.findById(user_id);
-        WorkExperience experience = new WorkExperience(dto.getDescription(), dto.getTitle(), dto.getCity(), dto.getCompany_name(), dto.getStart_date(), dto.getEnd_date(), userFound);
+        WorkExperience experience = new WorkExperience(dto.getDescription(), dto.getTitle(), dto.getCity(), dto.getCompany_name(), dto.getImage(), dto.getStart_date(), dto.getEnd_date(), userFound);
         return this.workExperienceRepository.save(experience);
     }
 

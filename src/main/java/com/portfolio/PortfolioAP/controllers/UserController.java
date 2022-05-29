@@ -12,6 +12,8 @@ import com.portfolio.PortfolioAP.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 
 @RestController
@@ -37,9 +39,10 @@ public class UserController {
         return this.userService.save(dto);
     }
 
-    @PutMapping(path = "/jwt/{user_id}")
+    @PutMapping(path = "/jwt")
     @ResponseBody
-    public User putUser(@PathVariable int user_id, @RequestBody UserDTO dto) throws UserNotFoundException {
+    public User putUser(HttpServletRequest request, @RequestBody UserDTO dto) throws UserNotFoundException {
+        int user_id = (int)request.getAttribute("user_id");
         return this.userService.updateUser(user_id, dto);
     }
 

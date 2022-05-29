@@ -26,6 +26,9 @@ public class WorkExperience {
     private String company_name;
 
     @Column
+    private String image;
+
+    @Column
     private LocalDate start_date;
 
     @Column
@@ -40,22 +43,24 @@ public class WorkExperience {
 
     }
 
-    public WorkExperience(int id, String description, String title, String city, String company_name, LocalDate start_date, LocalDate end_date, User user) {
+    public WorkExperience(int id, String description, String title, String city, String company_name, String image, LocalDate start_date, LocalDate end_date, User user) {
         this.id = id;
         this.description = description;
         this.title = title;
         this.city = city;
         this.company_name = company_name;
+        this.image = image;
         this.start_date = start_date;
         this.end_date = end_date;
         this.user = user;
     }
 
-    public WorkExperience(String description, String title, String city, String company_name, LocalDate start_date, LocalDate end_date, User user) {
+    public WorkExperience(String description, String title, String city, String company_name, String image, LocalDate start_date, LocalDate end_date, User user) {
         this.description = description;
         this.title = title;
         this.city = city;
         this.company_name = company_name;
+        this.image = image;
         this.start_date = start_date;
         this.end_date = end_date;
         this.user = user;
@@ -99,6 +104,14 @@ public class WorkExperience {
 
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public LocalDate getStart_date() {

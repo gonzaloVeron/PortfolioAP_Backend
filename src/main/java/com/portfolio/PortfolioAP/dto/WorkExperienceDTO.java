@@ -14,6 +14,8 @@ public class WorkExperienceDTO {
 
     private String company_name;
 
+    private String image;
+
     private LocalDate start_date;
 
     private LocalDate end_date;
@@ -61,6 +63,14 @@ public class WorkExperienceDTO {
 
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public LocalDate getStart_date() {
