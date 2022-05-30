@@ -14,32 +14,43 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/experiences/jwt")
-@CrossOrigin
+@RequestMapping("/api/v1/experiences")
 public class WorkExperienceController {
 
     @Autowired
     private WorkExperienceService workExperienceService;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     @ResponseBody
     public List<WorkExperience> getAllExperiences() {
         return this.workExperienceService.getAll();
     }
 
-    @PostMapping(path = "/")
+    @GetMapping(path = "/{exp_id}")
+    @ResponseBody
+    public WorkExperience getById(@PathVariable int exp_id) throws WorkExperienceNotFoundException {
+        return this.workExperienceService.getById(exp_id);
+    }
+
+    @PostMapping(path = "/jwt")
     @ResponseBody
     public WorkExperience postExperience(HttpServletRequest request, @RequestBody WorkExperienceDTO dto) throws UserNotFoundException {
         return this.workExperienceService.save((int)request.getAttribute("user_id"), dto);
     }
 
-    @PutMapping(path = "/{exp_id}")
+    @PutMapping(path = "/jwt/{exp_id}")
     @ResponseBody
     public WorkExperience putExperience(@PathVariable int exp_id, @RequestBody WorkExperienceDTO dto) throws WorkExperienceNotFoundException {
         return this.workExperienceService.update(exp_id, dto);
     }
 
-    @DeleteMapping("/{exp_id}")
+    @PatchMapping(path = "/jwt/exp_id")
+    @ResponseBody
+    public WorkExperience patchExperience(@PathVariable int exp_id, @RequestBody WorkExperienceDTO dto) throws WorkExperienceNotFoundException {
+        return this.workExperienceService.patch(exp_id, dto);
+    }
+
+    @DeleteMapping("/jwt/{exp_id}")
     public void deleteExperience(@PathVariable int exp_id) {
         this.workExperienceService.delete(exp_id);
     }

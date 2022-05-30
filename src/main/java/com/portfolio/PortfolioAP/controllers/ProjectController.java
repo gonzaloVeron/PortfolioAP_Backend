@@ -15,33 +15,33 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects/jwt")
+@RequestMapping("/api/v1/projects")
 @CrossOrigin
 public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     @ResponseBody
     public List<Project> getAllProjects() {
         return projectService.findAll();
     }
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/jwt")
     @ResponseBody
     public Project postProject(HttpServletRequest request, @RequestBody ProjectDTO dto) throws UserNotFoundException {
         int user_id = (int)request.getAttribute("user_id");
         return this.projectService.save(user_id, dto);
     }
 
-    @PutMapping(path = "/{proj_id}")
+    @PutMapping(path = "/jwt/{proj_id}")
     @ResponseBody
     public Project putProject(@PathVariable int proj_id, @RequestBody ProjectDTO dto) throws ProjectNotfoundException {
         return this.projectService.update(proj_id, dto);
     }
 
-    @DeleteMapping(path = "/{proj_id}")
+    @DeleteMapping(path = "/jwt/{proj_id}")
     public void deleteProject(@PathVariable int proj_id){
         this.projectService.deleteById(proj_id);
     }

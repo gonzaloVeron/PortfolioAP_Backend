@@ -29,7 +29,7 @@ public class User {
     @Column
     private String email;
 
-    @Column
+    @Column(length = 5000)
     private String about_me;
 
     @Column

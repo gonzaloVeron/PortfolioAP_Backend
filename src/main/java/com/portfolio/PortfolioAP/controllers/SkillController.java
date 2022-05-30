@@ -12,32 +12,32 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/skills/jwt")
+@RequestMapping("/api/v1/skills")
 @CrossOrigin
 public class SkillController {
 
     @Autowired
     private SkillService skillService;
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/jwt")
     @ResponseBody
     public Skill postSkill(HttpServletRequest request, @RequestBody SkillDTO dto) throws UserNotFoundException {
         return this.skillService.save((int) request.getAttribute("user_id"), dto);
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     @ResponseBody
     public List<Skill> getAllSkill(){
         return this.skillService.getAll();
     }
 
-    @PutMapping(path = "/{skill_id}")
+    @PutMapping(path = "/jwt/{skill_id}")
     @ResponseBody
     public Skill putSkill(@PathVariable int skill_id, @RequestBody SkillDTO dto) throws SkillNotFoundException {
         return this.skillService.update(skill_id, dto);
     }
 
-    @DeleteMapping(path = "/{skill_id}")
+    @DeleteMapping(path = "/jwt/{skill_id}")
     public void deleteSkill(@PathVariable int skill_id){
         this.skillService.delete(skill_id);
     }

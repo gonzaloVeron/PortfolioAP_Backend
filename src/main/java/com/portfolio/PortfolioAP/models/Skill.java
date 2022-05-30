@@ -16,7 +16,7 @@ public class Skill {
     private String name;
 
     @Column
-    private String level;
+    private int level;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -27,18 +27,19 @@ public class Skill {
 
     }
 
-    public Skill(int id, String name, String level, User user) {
+    public Skill(int id, String name, int level, User user) {
         this.id = id;
         this.name = name;
         this.level = level;
         this.user = user;
     }
 
-    public Skill(String name, String level, User user) {
+    public Skill(String name, int level, User user) {
         this.name = name;
         this.level = level;
         this.user = user;
     }
+
 
     public int getId() {
         return id;
@@ -56,11 +57,11 @@ public class Skill {
         this.name = name;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
@@ -71,5 +72,4 @@ public class Skill {
     public void setUser(User user) {
         this.user = user;
     }
-
 }

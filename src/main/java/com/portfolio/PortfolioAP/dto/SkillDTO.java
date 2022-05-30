@@ -4,9 +4,9 @@ public class SkillDTO {
 
     private String name;
 
-    private String level;
+    private int level;
 
-    public SkillDTO(String name, String level) {
+    public SkillDTO(String name, int level) {
         this.name = name;
         this.level = level;
     }
@@ -19,11 +19,11 @@ public class SkillDTO {
         this.name = name;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

@@ -12,33 +12,33 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/educations/jwt")
+@RequestMapping("/api/v1/educations")
 @CrossOrigin
 public class EducationController {
 
     @Autowired
     private EducationService educationService;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     @ResponseBody
     public List<Education> getAllEducations() {
         return educationService.findAll();
     }
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/jwt")
     @ResponseBody
     public Education postEducation(HttpServletRequest request, @RequestBody EducationDTO dto) throws UserNotFoundException {
         int user_id = (int)request.getAttribute("user_id");
         return this.educationService.save(user_id, dto);
     }
 
-    @PutMapping(path = "/{edu_id}")
+    @PutMapping(path = "/jwt/{edu_id}")
     @ResponseBody
     public Education putEducation(@PathVariable int edu_id, @RequestBody EducationDTO dto) throws EducationNotFoundException {
         return this.educationService.update(edu_id, dto);
     }
 
-    @DeleteMapping(path = "/{edu_id}")
+    @DeleteMapping(path = "/jwt/{edu_id}")
     public void deleteEducation(@PathVariable int edu_id){
         this.educationService.deleteById(edu_id);
     }
