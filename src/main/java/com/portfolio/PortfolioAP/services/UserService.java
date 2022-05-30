@@ -2,9 +2,7 @@ package com.portfolio.PortfolioAP.services;
 
 import com.portfolio.PortfolioAP.dto.UserDTO;
 import com.portfolio.PortfolioAP.dto.UserLoggedDTO;
-import com.portfolio.PortfolioAP.errorHandler.exceptions.InvalidCredentials;
-import com.portfolio.PortfolioAP.errorHandler.exceptions.MissingDataException;
-import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.*;
 import com.portfolio.PortfolioAP.models.User;
 import com.portfolio.PortfolioAP.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.core.env.Environment;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 public class UserService {
@@ -38,7 +37,7 @@ public class UserService {
     @Transactional
     public User updateUser(int user_id, UserDTO dto) throws UserNotFoundException {
         User user = this.userRepository.findById(user_id).get();
-        this.validateUserExistence(user);
+//        this.validateUserExistence(user);
         user.setEmail(dto.getEmail());
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
@@ -52,10 +51,41 @@ public class UserService {
     }
 
     @Transactional
+    public User patchUser(int user_id, UserDTO dto) throws UserNotFoundException {
+        User userFound = this.userRepository.findById(user_id).orElseThrow(new UserNotFoundExceptionSupplier());
+        if(dto.getEmail() != null){
+            userFound.setEmail(dto.getEmail());
+        }
+        if(dto.getName() != null){
+            userFound.setName(dto.getName());
+        }
+        if(dto.getSurname() != null){
+            userFound.setSurname(dto.getSurname());
+        }
+        if(dto.getAbout_me() != null){
+            userFound.setAbout_me(dto.getAbout_me());
+        }
+        if(dto.getBirth_date() != null){
+            userFound.setBirth_date(dto.getBirth_date());
+        }
+        if(dto.getEmployment() != null){
+            userFound.setEmployment(dto.getEmployment());
+        }
+        if(dto.getNationality() != null){
+            userFound.setNationality(dto.getNationality());
+        }
+        if(dto.getProfile_img() != null){
+            userFound.setProfile_img(dto.getProfile_img());
+        }
+        if(dto.getBackground_img() != null){
+            userFound.setBackground_img(dto.getBackground_img());
+        }
+        return userFound;
+    }
+
+    @Transactional
     public User findById(int id) throws UserNotFoundException {
-        User user = this.userRepository.findById(id).get();
-        this.validateUserExistence(user);
-        return user;
+        return this.userRepository.findById(id).orElseThrow(new UserNotFoundExceptionSupplier());
     }
 
     @Transactional
@@ -71,17 +101,11 @@ public class UserService {
     @Transactional
     public UserLoggedDTO authenticate(String email, String password) throws MissingDataException, InvalidCredentials {
         this.validateEmailAndPassword(email, password);
-        User userFound = this.userRepository.findByEmail(email).get();
+        User userFound = this.userRepository.findByEmail(email).orElseThrow(new InvalidCredentialsSupplier());
         if(!this.matchPassword(password, userFound.getPassword())){
             throw new InvalidCredentials();
         }
         return new UserLoggedDTO(userFound, this.jwtService.create(userFound.getId()));
-    }
-
-    private void validateUserExistence(User user) throws UserNotFoundException {
-        if(user == null){
-            throw new UserNotFoundException("The requested user was not found");
-        }
     }
 
     private void validateEmailAndPassword(String email, String password) throws MissingDataException {

@@ -18,7 +18,6 @@ import java.io.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -27,13 +26,13 @@ public class UserController {
     @Autowired
     private ImageService imageService;
 
-    @GetMapping(path = "/jwt/{user_id}")
+    @GetMapping(path = "/{user_id}")
     @ResponseBody
     public User getUserById(@PathVariable int user_id) throws UserNotFoundException {
         return this.userService.findById(user_id);
     }
 
-    @PostMapping(path = "")
+    @PostMapping(path = "/jwt")
     @ResponseBody
     public User postUser(@RequestBody UserDTO dto) {
         return this.userService.save(dto);
@@ -46,7 +45,14 @@ public class UserController {
         return this.userService.updateUser(user_id, dto);
     }
 
-    @DeleteMapping("/jwt/{user_id}")
+    @PatchMapping(path = "/jwt")
+    @ResponseBody
+    public User patchUser(HttpServletRequest request, @RequestBody UserDTO dto) throws UserNotFoundException {
+        int user_id = (int)request.getAttribute("user_id");
+        return this.userService.patchUser(user_id, dto);
+    }
+
+    @DeleteMapping(path = "/jwt/{user_id}")
     public void deleteUser(@PathVariable int user_id) {
         this.userService.deleteById(user_id);
     }
