@@ -11,12 +11,15 @@ import com.portfolio.PortfolioAP.dto.UserCredentialsDTO;
 import com.portfolio.PortfolioAP.services.ImageService;
 import com.portfolio.PortfolioAP.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 @RestController

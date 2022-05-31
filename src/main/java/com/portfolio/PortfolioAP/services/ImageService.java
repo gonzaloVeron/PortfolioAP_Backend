@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
@@ -20,10 +22,13 @@ public class ImageService {
     private Environment env;
 
     public ImageNameDTO upload(MultipartFile multipartFile) throws IOException {
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+
         String bucketName = env.getProperty("firebase.bucket.name");
         String projectId = env.getProperty("firebase.project.id");
         FileInputStream serviceAccount =
-                new FileInputStream(env.getProperty("firebase.credentials"));
+                new FileInputStream(s + env.getProperty("firebase.credentials"));
         StorageOptions storageOptions = StorageOptions.newBuilder()
                 .setProjectId(projectId)
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -39,6 +44,7 @@ public class ImageService {
         Blob blob = storage.create(blobInfo, multipartFile.getBytes());
 
         ImageNameDTO dto = new ImageNameDTO(uuid);
+
 
         return dto;
     }
