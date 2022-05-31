@@ -45,6 +45,7 @@ public class ImageService {
 
         ImageNameDTO dto = new ImageNameDTO(uuid);
 
+
         return dto;
     }
 

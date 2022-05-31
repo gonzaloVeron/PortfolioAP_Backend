@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -25,9 +23,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private ImageService imageService;
 
     @GetMapping(path = "/{user_id}")
     @ResponseBody
@@ -66,10 +61,18 @@ public class UserController {
         return this.userService.authenticate(userCred.getEmail(), userCred.getPassword());
     }
 
-    @PostMapping(path = "/jwt/img")
+    @PostMapping(path = "/jwt/img/profile")
     @ResponseBody
-    public ImageNameDTO uploadImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
-        return this.imageService.upload(multipartFile);
+    public ImageNameDTO uploadUserImage(HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile) throws IOException, UserNotFoundException {
+        int user_id = (int)request.getAttribute("user_id");
+        return this.userService.uploadImg(multipartFile, user_id, "profile");
+    }
+
+    @PostMapping(path = "/jwt/img/background")
+    @ResponseBody
+    public ImageNameDTO uploadUserBackgroundImage(HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile) throws IOException, UserNotFoundException {
+        int user_id = (int)request.getAttribute("user_id");
+        return this.userService.uploadImg(multipartFile, user_id, "background");
     }
 
 //    @PostMapping(path  = "/img")

@@ -1,5 +1,6 @@
 package com.portfolio.PortfolioAP.services;
 
+import com.portfolio.PortfolioAP.dto.ImageNameDTO;
 import com.portfolio.PortfolioAP.dto.UserDTO;
 import com.portfolio.PortfolioAP.dto.UserLoggedDTO;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.*;
@@ -10,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.core.env.Environment;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.function.Supplier;
@@ -25,6 +29,9 @@ public class UserService {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Transactional
     public User save(UserDTO dto) {
@@ -106,6 +113,19 @@ public class UserService {
             throw new InvalidCredentials();
         }
         return new UserLoggedDTO(userFound, this.jwtService.create(userFound.getId()));
+    }
+
+    @Transactional
+    public ImageNameDTO uploadImg(MultipartFile multipartFile, int user_id, String method) throws IOException, UserNotFoundException {
+        User userFound = this.userRepository.findById(user_id).orElseThrow(new UserNotFoundExceptionSupplier());
+        ImageNameDTO imgName = this.imageService.upload(multipartFile);
+        if(method == "profile"){
+            userFound.setProfile_img(imgName.getImgName());
+        }else{
+            userFound.setBackground_img(imgName.getImgName());
+        }
+        this.userRepository.save(userFound);
+        return imgName;
     }
 
     private void validateEmailAndPassword(String email, String password) throws MissingDataException {
