@@ -31,10 +31,22 @@ public class SkillController {
         return this.skillService.getAll();
     }
 
+    @GetMapping(path = "{skill_id}")
+    @ResponseBody
+    public Skill getSkill(@PathVariable int skill_id) throws SkillNotFoundException {
+        return this.skillService.getById(skill_id);
+    }
+
     @PutMapping(path = "/jwt/{skill_id}")
     @ResponseBody
     public Skill putSkill(@PathVariable int skill_id, @RequestBody SkillDTO dto) throws SkillNotFoundException {
         return this.skillService.update(skill_id, dto);
+    }
+
+    @PatchMapping(path = "/jwt/{skill_id}")
+    @ResponseBody
+    public Skill patchSkill(@PathVariable int skill_id, @RequestBody SkillDTO dto) throws SkillNotFoundException {
+        return this.skillService.patch(skill_id, dto);
     }
 
     @DeleteMapping(path = "/jwt/{skill_id}")

@@ -25,6 +25,11 @@ public class EducationController {
         return educationService.findAll();
     }
 
+    @GetMapping(path = "/{edu_id}")
+    public Education getById(@PathVariable int edu_id) throws EducationNotFoundException {
+        return this.educationService.findById(edu_id);
+    }
+
     @PostMapping(path = "/jwt")
     @ResponseBody
     public Education postEducation(HttpServletRequest request, @RequestBody EducationDTO dto) throws UserNotFoundException {
@@ -36,6 +41,12 @@ public class EducationController {
     @ResponseBody
     public Education putEducation(@PathVariable int edu_id, @RequestBody EducationDTO dto) throws EducationNotFoundException {
         return this.educationService.update(edu_id, dto);
+    }
+
+    @PatchMapping(path = "/jwt/{edu_id}")
+    @ResponseBody
+    public Education patchEducation(@PathVariable int edu_id, @RequestBody EducationDTO dto) throws EducationNotFoundException {
+        return this.educationService.patch(edu_id, dto);
     }
 
     @DeleteMapping(path = "/jwt/{edu_id}")

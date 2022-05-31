@@ -28,6 +28,12 @@ public class ProjectController {
         return projectService.findAll();
     }
 
+    @GetMapping(path = "{proj_id}")
+    @ResponseBody
+    public Project getProject(@PathVariable int proj_id) throws ProjectNotfoundException {
+        return this.projectService.getById(proj_id);
+    }
+
     @PostMapping(path = "/jwt")
     @ResponseBody
     public Project postProject(HttpServletRequest request, @RequestBody ProjectDTO dto) throws UserNotFoundException {
@@ -39,6 +45,12 @@ public class ProjectController {
     @ResponseBody
     public Project putProject(@PathVariable int proj_id, @RequestBody ProjectDTO dto) throws ProjectNotfoundException {
         return this.projectService.update(proj_id, dto);
+    }
+
+    @PatchMapping(path = "/jwt/{proj_id}")
+    @ResponseBody
+    public Project patchProject(@PathVariable int proj_id, @RequestBody ProjectDTO dto) throws ProjectNotfoundException {
+        return this.projectService.patch(proj_id, dto);
     }
 
     @DeleteMapping(path = "/jwt/{proj_id}")

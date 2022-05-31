@@ -39,6 +39,7 @@ public class WorkExperienceService {
         experienceFound.setTitle(dto.getTitle());
         experienceFound.setStart_date(dto.getStart_date());
         experienceFound.setEnd_date(dto.getEnd_date());
+        experienceFound.setImage(dto.getImage());
         return this.workExperienceRepository.save(experienceFound);
     }
 
@@ -62,6 +63,9 @@ public class WorkExperienceService {
         }
         if(dto.getEnd_date() != null){
             experienceFound.setEnd_date(dto.getEnd_date());
+        }
+        if(dto.getImage() != null){
+            experienceFound.setImage(dto.getImage());
         }
         return this.workExperienceRepository.save(experienceFound);
     }

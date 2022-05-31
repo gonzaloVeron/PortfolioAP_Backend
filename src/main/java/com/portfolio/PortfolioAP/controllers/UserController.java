@@ -1,5 +1,6 @@
 package com.portfolio.PortfolioAP.controllers;
 
+import com.portfolio.PortfolioAP.dto.ImageNameDTO;
 import com.portfolio.PortfolioAP.dto.UserDTO;
 import com.portfolio.PortfolioAP.dto.UserLoggedDTO;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.InvalidCredentials;
@@ -15,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -63,9 +66,9 @@ public class UserController {
         return this.userService.authenticate(userCred.getEmail(), userCred.getPassword());
     }
 
-    @PostMapping(path = "/img")
+    @PostMapping(path = "/jwt/img")
     @ResponseBody
-    public String uploadImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public ImageNameDTO uploadImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         return this.imageService.upload(multipartFile);
     }
 

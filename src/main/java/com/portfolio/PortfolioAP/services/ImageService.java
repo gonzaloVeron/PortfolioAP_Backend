@@ -2,6 +2,7 @@ package com.portfolio.PortfolioAP.services;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
+import com.portfolio.PortfolioAP.dto.ImageNameDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ImageService {
     @Autowired
     private Environment env;
 
-    public String upload(MultipartFile multipartFile) throws IOException {
+    public ImageNameDTO upload(MultipartFile multipartFile) throws IOException {
         String bucketName = env.getProperty("firebase.bucket.name");
         String projectId = env.getProperty("firebase.project.id");
         FileInputStream serviceAccount =
@@ -37,7 +38,9 @@ public class ImageService {
 
         Blob blob = storage.create(blobInfo, multipartFile.getBytes());
 
-        return uuid;
+        ImageNameDTO dto = new ImageNameDTO(uuid);
+
+        return dto;
     }
 
 }

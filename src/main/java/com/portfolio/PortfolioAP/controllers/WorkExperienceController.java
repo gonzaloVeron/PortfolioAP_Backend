@@ -44,7 +44,7 @@ public class WorkExperienceController {
         return this.workExperienceService.update(exp_id, dto);
     }
 
-    @PatchMapping(path = "/jwt/exp_id")
+    @PatchMapping(path = "/jwt/{exp_id}")
     @ResponseBody
     public WorkExperience patchExperience(@PathVariable int exp_id, @RequestBody WorkExperienceDTO dto) throws WorkExperienceNotFoundException {
         return this.workExperienceService.patch(exp_id, dto);

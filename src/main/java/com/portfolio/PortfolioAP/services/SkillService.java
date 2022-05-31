@@ -2,6 +2,7 @@ package com.portfolio.PortfolioAP.services;
 
 import com.portfolio.PortfolioAP.dto.SkillDTO;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.SkillNotFoundException;
+import com.portfolio.PortfolioAP.errorHandler.exceptions.SkillNotFoundExceptionSupplier;
 import com.portfolio.PortfolioAP.errorHandler.exceptions.UserNotFoundException;
 import com.portfolio.PortfolioAP.models.Skill;
 import com.portfolio.PortfolioAP.models.User;
@@ -30,10 +31,21 @@ public class SkillService {
 
     @Transactional
     public Skill update(int skill_id, SkillDTO dto) throws SkillNotFoundException {
-        Skill skillFound = this.skillRepository.findById(skill_id).get();
-        this.verifySkillExistence(skillFound);
+        Skill skillFound = this.skillRepository.findById(skill_id).orElseThrow(new SkillNotFoundExceptionSupplier());
         skillFound.setName(dto.getName());
         skillFound.setLevel(dto.getLevel());
+        return this.skillRepository.save(skillFound);
+    }
+
+    @Transactional
+    public Skill patch(int skill_id, SkillDTO dto) throws SkillNotFoundException {
+        Skill skillFound = this.skillRepository.findById(skill_id).orElseThrow(new SkillNotFoundExceptionSupplier());
+        if(dto.getName() != null){
+            skillFound.setName(dto.getName());
+        }
+        if(dto.getLevel() > -1){
+            skillFound.setLevel(dto.getLevel());
+        }
         return this.skillRepository.save(skillFound);
     }
 
@@ -43,14 +55,13 @@ public class SkillService {
     }
 
     @Transactional
-    public void delete(int skill_id){
-        this.skillRepository.deleteById(skill_id);
+    public Skill getById(int skill_id) throws SkillNotFoundException {
+        return this.skillRepository.findById(skill_id).orElseThrow(new SkillNotFoundExceptionSupplier());
     }
 
-    private void verifySkillExistence(Skill skill) throws SkillNotFoundException {
-        if(skill == null){
-            throw new SkillNotFoundException("The requested project was not found");
-        }
+    @Transactional
+    public void delete(int skill_id){
+        this.skillRepository.deleteById(skill_id);
     }
 
 }
